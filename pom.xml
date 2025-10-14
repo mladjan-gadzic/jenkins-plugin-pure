@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>plugin</artifactId>
+    <groupId>org.jenkins-ci.plugins</groupId>
+    <relativePath/>
+    <version>5.18</version>
+  </parent>
+
+  <groupId>io.armadaproject</groupId>
+  <artifactId>jenkins-plugin-pure</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>hpi</packaging>
+  <name>Armada plugin</name>
+  <description>Jenkins plugin to run dynamic agents in a Kubernetes cluster</description>
+  <url>https://github.com/armadaproject/${project.artifactId}</url>
+
+  <licenses>
+    <license>
+      <distribution>repo</distribution>
+      <name>Apache License 2.0</name>
+      <url>https://www.apache.org/licenses/LICENSE-2.0</url>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <email>gadzic.mladjan@gmail.com</email>
+      <id>mladjan-gadzic</id>
+      <name>Mladjan Gadzic</name>
+    </developer>
+  </developers>
+
+  <!--  <scm>-->
+  <!--    <connection>scm:git:https://github.com/yourusername/jenkins-plugin-pure.git</connection>-->
+  <!--    <developerConnection>scm:git:https://github.com/yourusername/jenkins-plugin-pure.git-->
+  <!--    </developerConnection>-->
+  <!--    <url>https://github.com/yourusername/jenkins-plugin-pure</url>-->
+  <!--    <tag>HEAD</tag>-->
+  <!--  </scm>-->
+
+  <properties>
+    <jenkins.baseline>2.504</jenkins.baseline>
+    <jenkins.version>${jenkins.baseline}.1</jenkins.version>
+    <plugin.version>1.0-SNAPSHOT</plugin.version>
+    <java-client.version>0.0.3</java-client.version>
+  </properties>
+
+  <repositories>
+    <repository>
+      <id>repo.jenkins-ci.org</id>
+      <url>https://repo.jenkins-ci.org/public/</url>
+    </repository>
+  </repositories>
+
+  <pluginRepositories>
+    <pluginRepository>
+      <id>repo.jenkins-ci.org</id>
+      <url>https://repo.jenkins-ci.org/public/</url>
+    </pluginRepository>
+  </pluginRepositories>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-hpi-plugin</artifactId>
+        <extensions>true</extensions>
+        <groupId>org.jenkins-ci.tools</groupId>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <artifactId>bom-${jenkins.baseline}.x</artifactId>
+        <groupId>io.jenkins.tools.bom</groupId>
+        <scope>import</scope>
+        <type>pom</type>
+        <version>5015.vb_52d36583443</version>
+      </dependency>
+      <dependency>
+        <artifactId>mockwebserver</artifactId>
+        <groupId>com.squareup.okhttp3</groupId>
+        <!-- transitive dep of io.fabric8:kubernetes-server-mock, needs alignment with okhttp-api -->
+        <version>4.11.0</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+    <dependency>
+      <artifactId>kubernetes</artifactId>
+      <groupId>org.csanchez.jenkins.plugins</groupId>
+      <version>4384.v1b_6367f393d9</version>
+    </dependency>
+    <dependency>
+      <artifactId>credentials</artifactId>
+      <groupId>org.jenkins-ci.plugins</groupId>
+    </dependency>
+    <dependency>
+      <artifactId>structs</artifactId>
+      <groupId>org.jenkins-ci.plugins</groupId>
+    </dependency>
+    <dependency>
+      <artifactId>okhttp-api</artifactId>
+      <groupId>io.jenkins.plugins</groupId>
+    </dependency>
+    <dependency>
+      <artifactId>spotbugs-annotations</artifactId>
+      <groupId>com.github.spotbugs</groupId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jenkinsci.plugins</groupId>
+      <artifactId>pipeline-model-extensions</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.jenkinsci.plugins</groupId>
+      <artifactId>pipeline-model-definition</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.armadaproject</groupId>
+      <artifactId>java-client</artifactId>
+      <version>${java-client.version}</version>
+      <!-- necessary because of enforcer plugin -->
+      <exclusions>
+        <exclusion>
+          <groupId>com.google.errorprone</groupId>
+          <artifactId>error_prone_annotations</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.awaitility</groupId>
+      <artifactId>awaitility</artifactId>
+      <version>4.2.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jenkins-ci.plugins</groupId>
+      <artifactId>durable-task</artifactId>
+    </dependency>
+  </dependencies>
+
+</project>

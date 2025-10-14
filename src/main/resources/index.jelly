@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?jelly escape-by-default='true'?>
+<div>
+  This plugin enables Jenkins to run dynamic agents in Kubernetes clusters via Armada.
+  Armada provides advanced scheduling and workload management capabilities on top of Kubernetes.
+</div>
