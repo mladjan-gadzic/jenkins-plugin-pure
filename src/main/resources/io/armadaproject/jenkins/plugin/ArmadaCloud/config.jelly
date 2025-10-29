@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:c="/lib/credentials" xmlns:f="/lib/form" xmlns:j="jelly:core">
+  <f:entry field="name" title="Name">
+    <f:textbox checkMethod="post" clazz="required" default="armada"/>
+  </f:entry>
+
+  <f:entry field="armadaUrl" title="Armada Server URL">
+    <f:textbox checkMethod="post" clazz="required" default="localhost"/>
+  </f:entry>
+
+  <f:entry field="armadaPort" title="Armada Server Port">
+    <f:textbox checkMethod="post" clazz="required" default="30002"/>
+  </f:entry>
+
+  <f:entry field="armadaCredentialsId" title="Armada Credentials">
+    <c:select/>
+  </f:entry>
+
+  <f:entry field="armadaQueue" title="Armada Queue">
+    <f:textbox checkMethod="post" clazz="required" default="example"/>
+  </f:entry>
+
+  <f:entry field="armadaNamespace" title="Armada Namespace">
+    <f:textbox checkMethod="post" clazz="required" default="default"/>
+  </f:entry>
+
+  <f:entry field="armadaLookoutUrl" title="Armada Lookout URL">
+    <f:textbox default="http://localhost"/>
+  </f:entry>
+
+  <f:entry field="armadaLookoutPort" title="Armada Lookout Port">
+    <f:textbox checkMethod="post" default="30000"/>
+  </f:entry>
+
+  <f:entry field="armadaJobSetPrefix" title="Job Set Prefix">
+    <f:textbox/>
+  </f:entry>
+
+  <f:entry field="armadaJobSetId" title="Job Set ID">
+    <f:textbox/>
+  </f:entry>
+
+  <f:entry field="armadaClusterConfigPath" title="Cluster Config Path">
+    <f:textbox checkMethod="post" clazz="required" default="/tmp/clusters.xml"/>
+  </f:entry>
+
+  <f:entry field="jenkinsUrl" title="Jenkins URL">
+    <f:textbox checkMethod="post" clazz="required"
+      default="http://host.docker.internal:8080/jenkins"/>
+  </f:entry>
+
+  <f:validateButton method="testArmadaConnection" progress="Testing..."
+    title="Test Armada Connection" with="armadaUrl,armadaPort,armadaCredentialsId"/>
+
+</j:jelly>

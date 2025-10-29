@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:f="/lib/form" xmlns:j="jelly:core">
+  <f:entry field="yaml" title="YAML">
+    <f:textarea clazz="required"/>
+  </f:entry>
+</j:jelly>

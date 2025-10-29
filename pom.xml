@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <artifactId>jenkins-plugin-pure</artifactId>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-hpi-plugin</artifactId>
+        <extensions>true</extensions>
+        <groupId>org.jenkins-ci.tools</groupId>
+      </plugin>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <groupId>org.apache.maven.plugins</groupId>
+        <version>3.0.0</version>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <!-- Jenkins core plugins -->
+    <dependency>
+      <artifactId>credentials</artifactId>
+      <groupId>org.jenkins-ci.plugins</groupId>
+    </dependency>
+    <dependency>
+      <artifactId>plain-credentials</artifactId>
+      <groupId>org.jenkins-ci.plugins</groupId>
+    </dependency>
+    <dependency>
+      <artifactId>structs</artifactId>
+      <groupId>org.jenkins-ci.plugins</groupId>
+    </dependency>
+    <dependency>
+      <artifactId>durable-task</artifactId>
+      <groupId>org.jenkins-ci.plugins</groupId>
+    </dependency>
+
+    <!-- Pipeline/workflow support -->
+    <dependency>
+      <artifactId>workflow-step-api</artifactId>
+      <groupId>org.jenkins-ci.plugins.workflow</groupId>
+    </dependency>
+    <dependency>
+      <artifactId>workflow-api</artifactId>
+      <groupId>org.jenkins-ci.plugins.workflow</groupId>
+    </dependency>
+    <dependency>
+      <artifactId>pipeline-model-extensions</artifactId>
+      <groupId>org.jenkinsci.plugins</groupId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <artifactId>pipeline-model-definition</artifactId>
+      <groupId>org.jenkinsci.plugins</groupId>
+    </dependency>
+    <!-- Kubernetes client (Fabric8) -->
+    <dependency>
+      <artifactId>kubernetes-client</artifactId>
+      <exclusions>
+        <!-- Exclude Jackson to use Jenkins' managed versions -->
+        <exclusion>
+          <artifactId>*</artifactId>
+          <groupId>com.fasterxml.jackson.core</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>*</artifactId>
+          <groupId>com.fasterxml.jackson.datatype</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>*</artifactId>
+          <groupId>com.fasterxml.jackson.dataformat</groupId>
+        </exclusion>
+        <!-- Exclude SnakeYAML to use Jenkins' managed version -->
+        <exclusion>
+          <artifactId>snakeyaml</artifactId>
+          <groupId>org.yaml</groupId>
+        </exclusion>
+      </exclusions>
+      <groupId>io.fabric8</groupId>
+      <version>6.10.0</version>
+    </dependency>
+
+    <!-- Add Jackson dependency managed by Jenkins -->
+    <dependency>
+      <artifactId>jackson2-api</artifactId>
+      <groupId>org.jenkins-ci.plugins</groupId>
+    </dependency>
+
+    <!-- Utilities -->
+    <dependency>
+      <artifactId>awaitility</artifactId>
+      <groupId>org.awaitility</groupId>
+      <version>4.2.0</version>
+    </dependency>
+    <dependency>
+      <artifactId>commons-io</artifactId>
+      <groupId>commons-io</groupId>
+      <version>2.11.0</version>
+    </dependency>
+    <dependency>
+      <artifactId>commons-lang3</artifactId>
+      <groupId>org.apache.commons</groupId>
+      <version>3.12.0</version>
+    </dependency>
+
+    <!-- Other Jenkins plugins -->
+    <dependency>
+      <artifactId>okhttp-api</artifactId>
+      <groupId>io.jenkins.plugins</groupId>
+    </dependency>
+    <dependency>
+      <artifactId>spotbugs-annotations</artifactId>
+      <groupId>com.github.spotbugs</groupId>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- Armada client -->
+    <dependency>
+      <artifactId>java-client</artifactId>
+      <exclusions>
+        <exclusion>
+          <artifactId>error_prone_annotations</artifactId>
+          <groupId>com.google.errorprone</groupId>
+        </exclusion>
+      </exclusions>
+      <groupId>io.armadaproject</groupId>
+      <version>${java-client.version}</version>
+    </dependency>
+
+    <!-- Test dependencies - JUnit 5 (Jupiter) -->
+    <dependency>
+      <artifactId>junit-jupiter</artifactId>
+      <groupId>org.junit.jupiter</groupId>
+      <scope>test</scope>
+      <version>5.11.4</version>
+    </dependency>
+    <dependency>
+      <artifactId>jenkins-test-harness</artifactId>
+      <groupId>org.jenkins-ci.main</groupId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <artifactId>mockito-core</artifactId>
+      <groupId>org.mockito</groupId>
+      <scope>test</scope>
+      <version>5.14.2</version>
+    </dependency>
+    <dependency>
+      <artifactId>mockito-junit-jupiter</artifactId>
+      <groupId>org.mockito</groupId>
+      <scope>test</scope>
+      <version>5.14.2</version>
+    </dependency>
+  </dependencies>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <artifactId>bom-${jenkins.baseline}.x</artifactId>
+        <groupId>io.jenkins.tools.bom</groupId>
+        <scope>import</scope>
+        <type>pom</type>
+        <version>5015.vb_52d36583443</version>
+      </dependency>
+      <dependency>
+        <artifactId>mockwebserver</artifactId>
+        <groupId>com.squareup.okhttp3</groupId>
+        <!-- transitive dep of io.fabric8:kubernetes-server-mock, needs alignment with okhttp-api -->
+        <version>4.11.0</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+  <description>Jenkins plugin to run dynamic agents in a Armada cluster</description>
+  <developers>
+    <developer>
+      <email>gadzic.mladjan@gmail.com</email>
+      <id>mladjan-gadzic</id>
+      <name>Mladjan Gadzic</name>
+    </developer>
+  </developers>
+  <groupId>io.armadaproject</groupId>
+  <licenses>
+    <license>
+      <distribution>repo</distribution>
+      <name>Apache License 2.0</name>
+      <url>https://www.apache.org/licenses/LICENSE-2.0</url>
+    </license>
+  </licenses>
+  <modelVersion>4.0.0</modelVersion>
+
+  <name>Armada plugin</name>
+
+  <packaging>hpi</packaging>
+
+  <parent>
+    <artifactId>plugin</artifactId>
+    <groupId>org.jenkins-ci.plugins</groupId>
+    <relativePath/>
+    <version>5.18</version>
+  </parent>
+
+  <pluginRepositories>
+    <pluginRepository>
+      <id>repo.jenkins-ci.org</id>
+      <url>https://repo.jenkins-ci.org/public/</url>
+    </pluginRepository>
+  </pluginRepositories>
+
+  <properties>
+    <java-client.version>0.0.3</java-client.version>
+    <jenkins-test-harness.version>2478.v665cca_da_f20c</jenkins-test-harness.version>
+    <jenkins.baseline>2.504</jenkins.baseline>
+    <jenkins.version>${jenkins.baseline}.1</jenkins.version>
+    <plugin.version>1.0-SNAPSHOT</plugin.version>
+  </properties>
+
+  <repositories>
+    <repository>
+      <id>repo.jenkins-ci.org</id>
+      <url>https://repo.jenkins-ci.org/public/</url>
+    </repository>
+  </repositories>
+
+  <url>https://github.com/armadaproject/${project.artifactId}</url>
+
+  <version>1.0-SNAPSHOT</version>
+
+</project>
