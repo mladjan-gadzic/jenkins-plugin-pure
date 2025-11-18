@@ -9,7 +9,7 @@ Before running this plugin, you need the following:
 ### Required Software
 
 - Java 21
-- Maven 3.9.9
+- Maven 3.9.9 (or use mvn wrapper plugin by running `mvn wrapper:wrapper` and continue with `./mvnw` as mvn executable)
 - Running Armada operator in your Kubernetes cluster
 - Kubernetes cluster with Armada configured
 

@@ -15,6 +15,14 @@
         <groupId>org.apache.maven.plugins</groupId>
         <version>3.0.0</version>
       </plugin>
+      <plugin>
+        <artifactId>maven-wrapper-plugin</artifactId>
+        <groupId>org.apache.maven.plugins</groupId>
+        <version>3.3.4</version>
+        <configuration>
+          <mavenVersion>3.9.9</mavenVersion>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 
